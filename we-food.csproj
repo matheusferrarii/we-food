@@ -12,13 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="contexts\restaurant\Controllers\" />
-    <Folder Include="contexts\restaurant\Entities\" />
     <Folder Include="contexts\restaurant\Interfaces\" />
     <Folder Include="contexts\restaurant\DTOS\" />
     <Folder Include="contexts\restaurant\Repository\" />
-    <Folder Include="contexts\restaurant\ValueObjects\" />
-    <Folder Include="contexts\restaurant\UseCases\" />
   </ItemGroup>
 
 </Project>
