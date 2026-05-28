@@ -1,4 +1,4 @@
-﻿using we_food.Data.Model;
+using we_food.contexts.order.Entities;
 
 namespace we_food.contexts.order.Interfaces
 {

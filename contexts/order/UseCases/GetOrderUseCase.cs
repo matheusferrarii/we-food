@@ -1,8 +1,9 @@
-﻿using we_food.contexts.order.Interfaces;
+using we_food.contexts.order.Entities;
+using we_food.contexts.order.Interfaces;
 
 namespace we_food.contexts.order.UseCases
 {
-    public class GetOrderUseCase
+    public class GetOrderUseCase : IGetOrderUseCase
     {
         private readonly IOrderRepository _orderRepository;
 
@@ -11,8 +12,9 @@ namespace we_food.contexts.order.UseCases
             _orderRepository = orderRepository;
         }
 
-        public async Task<string> Run()
+        public async Task<IEnumerable<Order>> Run()
         {
+            return await _orderRepository.FindAll();
         }
     }
 }
