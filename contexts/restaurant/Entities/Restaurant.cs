@@ -8,6 +8,7 @@ namespace we_food.contexts.restaurant.Entities
         public Guid Id { get; private set; }
 
         public Name Name { get; private set; }
+        public Adress Adress { get; private set; }
 
         public Description Description { get; private set; }
 

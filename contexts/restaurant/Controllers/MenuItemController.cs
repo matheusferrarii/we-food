@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using we_food.contexts.restaurant.DTOS;
+using we_food.contexts.restaurant.Interfaces;
+using we_food.contexts.restaurant.UseCases;
 
 namespace we_food.contexts.restaurant.Controllers
 {
@@ -6,8 +9,21 @@ namespace we_food.contexts.restaurant.Controllers
     [Route("api/[controller]")]
     public class MenuItemController : Controller
     {
-        public MenuItemController()
+        private readonly ICreateMenuItemUseCase _createMenuItemUseCase;
+        private readonly IGetMenuItemUseCase _getMenuItemUseCase;
+        private readonly IGetByIdMenuItemUseCase _getMenuItemByIdUseCase;
+        private readonly IUpdateMenuItemUseCase _updateMenuItemUseCase;
+
+        public MenuItemController(
+            ICreateMenuItemUseCase createMenuItemUseCase,
+            IGetMenuItemUseCase getMenuItemUseCase,
+            IGetByIdMenuItemUseCase getMenuItemByIdUseCase,
+            IUpdateMenuItemUseCase updateMenuItemUseCase)
         {
+            _createMenuItemUseCase = createMenuItemUseCase;
+            _getMenuItemUseCase = getMenuItemUseCase;
+            _getMenuItemByIdUseCase = getMenuItemByIdUseCase;
+            _updateMenuItemUseCase = updateMenuItemUseCase;
         }
 
         [HttpPost]

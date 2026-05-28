@@ -1,19 +1,18 @@
 ﻿    using Microsoft.AspNetCore.Mvc;
     using we_food.contexts.order.DTOS;
-    using we_food.contexts.order.UseCases;
-
+    using we_food.contexts.order.Interfaces;
 namespace we_food.contexts.order.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     public class OrderController : Controller
     {
-        private readonly CreateOrderUseCase _createOrderUseCase;
-        private readonly GetOrderUseCase _getOrderUseCase;
-        private readonly GetByIdOrderUseCase _getByIdOrderUseCase;
-        private readonly UpdateOrderStatusUseCase _updateOrderStatusUseCase;
+        private readonly ICreateOrderUseCase _createOrderUseCase;
+        private readonly IGetOrderUseCase _getOrderUseCase;
+        private readonly IGetByIdOrderUseCase _getByIdOrderUseCase;
+        private readonly IUpdateOrderStatusUseCase _updateOrderStatusUseCase;
 
-        public OrderController(CreateOrderUseCase createOrderUseCase, GetOrderUseCase getOrderUseCase, GetByIdOrderUseCase getByIdOrderUseCase, UpdateOrderStatusUseCase updateOrderStatusUseCase)
+        public OrderController(ICreateOrderUseCase createOrderUseCase, IGetOrderUseCase getOrderUseCase, IGetByIdOrderUseCase getByIdOrderUseCase, IUpdateOrderStatusUseCase updateOrderStatusUseCase)
         {
             _createOrderUseCase = createOrderUseCase;
             _getOrderUseCase = getOrderUseCase;

@@ -4,6 +4,7 @@ namespace we_food.contexts.order.Entities
 {
     public class OrderItem
     {
+        public Guid Id { get; private set; }
         public Guid MenuItemId { get; private set; }
 
         public Quantity Quantity { get; private set; }
@@ -14,6 +15,8 @@ namespace we_food.contexts.order.Entities
 
         public OrderItem(Guid menuItemId, Quantity quantity, Money unitPrice)
         {
+            Id = Guid.NewGuid();
+
             MenuItemId = menuItemId;
 
             Quantity = quantity;

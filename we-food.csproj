@@ -8,12 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="contexts\restaurant\Interfaces\" />
-    <Folder Include="contexts\restaurant\DTOS\" />
     <Folder Include="contexts\restaurant\Repository\" />
   </ItemGroup>
 

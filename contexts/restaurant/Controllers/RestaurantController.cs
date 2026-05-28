@@ -1,26 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using we_food.contexts.restaurant.DTOS;
-using we_food.contexts.restaurant.UseCases;
-
+using we_food.contexts.restaurant.Interfaces;
 namespace we_food.contexts.restaurant.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     public class RestaurantController : Controller
     {
-        private readonly CreateRestaurantUseCase _createRestauranteUseCase;
-        private readonly GetRestaurantUseCase _getRestauranteUseCase;
-        private readonly GetByIdRestaurantUseCase _getRestauranteByIdUseCase;
-        private readonly UpdateRestaurantUseCase _updateRestauranteUseCase;
-        private readonly UpdateRestaurantStatusUseCase _updateRestauranteStatusUseCase;
-        private readonly GetByIdRestaurantMenuUseCase _getRestauranteMenuByIdUseCase;
+        private readonly ICreateRestaurantUseCase _createRestauranteUseCase;
+        private readonly IGetRestaurantUseCase _getRestauranteUseCase;
+        private readonly IGetByIdRestaurantUseCase _getRestauranteByIdUseCase;
+        private readonly IUpdateRestaurantUseCase _updateRestauranteUseCase;
+        private readonly IUpdateRestaurantStatusUseCase _updateRestauranteStatusUseCase;
+        private readonly IGetByIdRestaurantMenuUseCase _getRestauranteMenuByIdUseCase;
         public RestaurantController(
-            CreateRestaurantUseCase createRestauranteUseCase, 
-            GetRestaurantUseCase getRestauranteUseCase, 
-            GetByIdRestaurantUseCase getRestauranteByIdUseCase,
-            UpdateRestaurantUseCase updateRestauranteUseCase,
-            UpdateRestaurantStatusUseCase updateRestauranteStatusUseCase,
-            GetByIdRestaurantMenuUseCase getRestauranteMenuByIdUseCase
+            ICreateRestaurantUseCase createRestauranteUseCase, 
+            IGetRestaurantUseCase getRestauranteUseCase, 
+            IGetByIdRestaurantUseCase getRestauranteByIdUseCase,
+            IUpdateRestaurantUseCase updateRestauranteUseCase,
+            IUpdateRestaurantStatusUseCase updateRestauranteStatusUseCase,
+            IGetByIdRestaurantMenuUseCase getRestauranteMenuByIdUseCase
             )
         {
             _createRestauranteUseCase = createRestauranteUseCase;
