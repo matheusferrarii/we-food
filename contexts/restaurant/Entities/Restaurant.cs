@@ -1,4 +1,3 @@
-﻿using System.Numerics;
 using we_food.contexts.restaurant.ValueObjects;
 
 namespace we_food.contexts.restaurant.Entities
@@ -8,7 +7,6 @@ namespace we_food.contexts.restaurant.Entities
         public Guid Id { get; private set; }
 
         public Name Name { get; private set; }
-        public Adress Adress { get; private set; }
 
         public Description Description { get; private set; }
 
@@ -28,6 +26,23 @@ namespace we_food.contexts.restaurant.Entities
             CreatedAt = DateTime.UtcNow;
         }
 
+        public Restaurant(Guid id, Name name, Description description, Phone phone, bool isOpen, DateTime createdAt)
+        {
+            Id = id;
+            Name = name;
+            Description = description;
+            Phone = phone;
+            IsOpen = isOpen;
+            CreatedAt = createdAt;
+        }
+
+        public void Update(Name name, Description description, Phone phone)
+        {
+            Name = name;
+            Description = description;
+            Phone = phone;
+        }
+
         public void Open()
         {
             if (IsOpen)
@@ -42,6 +57,9 @@ namespace we_food.contexts.restaurant.Entities
             IsOpen = false;
         }
 
-
+        public void SetStatus(bool isOpen)
+        {
+            if (isOpen) Open(); else Close();
+        }
     }
 }

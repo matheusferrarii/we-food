@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using we_food.contexts.order.Entities;
 using we_food.contexts.order.Enums;
 using we_food.contexts.order.Interfaces;
@@ -21,31 +21,22 @@ namespace we_food.contexts.order.Repository
             var orderModel = new Data.Model.Order
             {
                 Id = order.Id,
-
                 CustomerName = order.CustomerName.Value,
-
                 TotalAmount = order.TotalAmount.Value,
-
                 Status = order.Status.ToString(),
-
                 CreatedAt = order.CreatedAt,
-
                 Items = order.Items.Select(item => new Data.Model.OrderItem
                 {
-
+                    Id = item.Id,
+                    OrderId = order.Id,
                     MenuItemId = item.MenuItemId,
-
                     Quantity = item.Quantity.Value,
-
                     UnitPrice = item.UnitPrice.Value,
-
                     Subtotal = item.Subtotal.Value
-
                 }).ToList()
             };
 
             await _context.Orders.AddAsync(orderModel);
-
             await _context.SaveChangesAsync();
         }
 
@@ -59,9 +50,7 @@ namespace we_food.contexts.order.Repository
                 throw new Exception("Pedido não encontrado");
 
             orderModel.CustomerName = order.CustomerName.Value;
-
             orderModel.TotalAmount = order.TotalAmount.Value;
-
             orderModel.Status = order.Status.ToString();
 
             await _context.SaveChangesAsync();
@@ -70,51 +59,45 @@ namespace we_food.contexts.order.Repository
         public async Task<Order?> FindById(Guid id)
         {
             var orderModel = await _context.Orders
+                .AsNoTracking()
                 .Include(x => x.Items)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
-            if (orderModel == null)
-                return null;
+            return orderModel == null ? null : Map(orderModel);
+        }
 
-            var items = orderModel.Items.Select(item =>
+        public async Task<List<Order>> FindAll()
+        {
+            var ordersModel = await _context.Orders
+                .AsNoTracking()
+                .Include(x => x.Items)
+                .ToListAsync();
+
+            return ordersModel.Select(Map).ToList();
+        }
+
+        private static Order Map(Data.Model.Order model)
+        {
+            var items = model.Items.Select(item =>
                 new OrderItem(
+                    item.Id,
                     item.MenuItemId,
                     new Quantity(item.Quantity),
                     new Money(item.UnitPrice)
                 )
             ).ToList();
 
-            var order = new Order(
-                new CustomerName(orderModel.CustomerName),
-                items
+            var status = Enum.TryParse<OrderStatus>(model.Status, out var parsed)
+                ? parsed
+                : OrderStatus.Pending;
+
+            return new Order(
+                model.Id,
+                new CustomerName(model.CustomerName),
+                items,
+                status,
+                model.CreatedAt
             );
-
-            return order;
-        }
-
-        public async Task<List<Order>> FindAll()
-        {
-            var ordersModel = await _context.Orders
-                .Include(x => x.Items)
-                .ToListAsync();
-
-            var orders = ordersModel.Select(orderModel =>
-            {
-                var items = orderModel.Items.Select(item =>
-                    new OrderItem(
-                        item.MenuItemId,
-                        new Quantity(item.Quantity),
-                        new Money(item.UnitPrice)
-                    )
-                ).ToList();
-
-                return new Order(
-                    new CustomerName(orderModel.CustomerName),
-                    items
-                );
-            }).ToList();
-
-            return orders;
         }
     }
 }

@@ -27,6 +27,7 @@ namespace we_food.contexts.restaurant.Controllers
             _getRestauranteByIdUseCase = getRestauranteByIdUseCase;
             _updateRestauranteUseCase = updateRestauranteUseCase;
             _updateRestauranteStatusUseCase = updateRestauranteStatusUseCase;
+            _getRestauranteMenuByIdUseCase = getRestauranteMenuByIdUseCase;
         }
 
         [HttpPost]
@@ -76,7 +77,7 @@ namespace we_food.contexts.restaurant.Controllers
         {
             try
             {
-                var result = await _getRestauranteMenuByIdUseCase.Run(id, true);
+                var result = await _getRestauranteMenuByIdUseCase.Run(id);
                 return Ok(result);
             }
             catch (Exception ex)

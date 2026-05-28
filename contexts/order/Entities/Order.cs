@@ -1,4 +1,4 @@
-﻿using we_food.contexts.order.Enums;
+using we_food.contexts.order.Enums;
 using we_food.contexts.order.ValueObjects;
 
 namespace we_food.contexts.order.Entities
@@ -23,22 +23,27 @@ namespace we_food.contexts.order.Entities
                 throw new Exception("Pedido não pode ser vazio");
 
             Id = Guid.NewGuid();
-
             CustomerName = customerName;
-
             Items = items;
-
             Status = OrderStatus.Pending;
-
             CreatedAt = DateTime.UtcNow;
 
+            CalculateTotal();
+        }
+
+        public Order(Guid id, CustomerName customerName, List<OrderItem> items, OrderStatus status, DateTime createdAt)
+        {
+            Id = id;
+            CustomerName = customerName;
+            Items = items;
+            Status = status;
+            CreatedAt = createdAt;
             CalculateTotal();
         }
 
         private void CalculateTotal()
         {
             var total = Items.Sum(x => x.Subtotal.Value);
-
             TotalAmount = new Money(total);
         }
 
@@ -53,7 +58,6 @@ namespace we_food.contexts.order.Entities
         {
             if (Status != OrderStatus.Pending)
                 throw new Exception("Pedido precisa estar pendente");
-
             Status = OrderStatus.Preparing;
         }
 
@@ -61,7 +65,6 @@ namespace we_food.contexts.order.Entities
         {
             if (Status != OrderStatus.Preparing)
                 throw new Exception("Pedido precisa estar em preparo");
-
             Status = OrderStatus.OutForDelivery;
         }
 
@@ -69,8 +72,22 @@ namespace we_food.contexts.order.Entities
         {
             if (Status != OrderStatus.OutForDelivery)
                 throw new Exception("Pedido não saiu para entrega");
-
             Status = OrderStatus.Delivered;
+        }
+
+        public void ChangeStatus(OrderStatus target)
+        {
+            switch (target)
+            {
+                case OrderStatus.Preparing: Prepare(); break;
+                case OrderStatus.OutForDelivery: Dispatch(); break;
+                case OrderStatus.Delivered: Deliver(); break;
+                case OrderStatus.Canceled: Cancel(); break;
+                case OrderStatus.Pending:
+                    throw new Exception("Não é possível voltar para pendente");
+                default:
+                    throw new Exception("Status inválido");
+            }
         }
     }
 }
