@@ -15,7 +15,8 @@ builder.Services.AddSwaggerGen();
 
 string connectionString = builder.Configuration.GetConnectionString("Database");
 builder.Services.AddDbContext<Context>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
+
+options.UseNpgsql(connectionString) 
 );
 
 // Repositories
@@ -43,6 +44,16 @@ builder.Services.AddScoped<IGetOrderUseCase, GetOrderUseCase>();
 builder.Services.AddScoped<IGetByIdOrderUseCase, GetByIdOrderUseCase>();
 builder.Services.AddScoped<IUpdateOrderStatusUseCase, UpdateOrderStatusUseCase>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -52,6 +63,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowFrontend");
 app.UseAuthorization();
 app.MapControllers();
 
