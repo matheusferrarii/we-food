@@ -23,6 +23,7 @@ namespace we_food.contexts.restaurant.Repository
                 Name = restaurant.Name.Value,
                 Description = restaurant.Description.Value,
                 Phone = restaurant.Phone.Value,
+                Adress = restaurant.Address.Value,
                 IsOpen = restaurant.IsOpen,
                 CreatedAt = restaurant.CreatedAt
             };
@@ -41,6 +42,7 @@ namespace we_food.contexts.restaurant.Repository
             model.Name = restaurant.Name.Value;
             model.Description = restaurant.Description.Value;
             model.Phone = restaurant.Phone.Value;
+            model.Adress = restaurant.Address.Value;
             model.IsOpen = restaurant.IsOpen;
 
             await _context.SaveChangesAsync();
@@ -69,6 +71,7 @@ namespace we_food.contexts.restaurant.Repository
                 new Name(model.Name),
                 new Description(model.Description),
                 new Phone(model.Phone),
+                new Address(model.Adress),
                 model.IsOpen,
                 model.CreatedAt
             );

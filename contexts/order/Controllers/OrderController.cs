@@ -1,18 +1,23 @@
-﻿    using Microsoft.AspNetCore.Mvc;
-    using we_food.contexts.order.DTOS;
-    using we_food.contexts.order.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using we_food.contexts.order.DTOS;
+using we_food.contexts.order.Interfaces;
+
 namespace we_food.contexts.order.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class OrderController : Controller
+    public class OrderController : ControllerBase
     {
         private readonly ICreateOrderUseCase _createOrderUseCase;
         private readonly IGetOrderUseCase _getOrderUseCase;
         private readonly IGetByIdOrderUseCase _getByIdOrderUseCase;
         private readonly IUpdateOrderStatusUseCase _updateOrderStatusUseCase;
 
-        public OrderController(ICreateOrderUseCase createOrderUseCase, IGetOrderUseCase getOrderUseCase, IGetByIdOrderUseCase getByIdOrderUseCase, IUpdateOrderStatusUseCase updateOrderStatusUseCase)
+        public OrderController(
+            ICreateOrderUseCase createOrderUseCase,
+            IGetOrderUseCase getOrderUseCase,
+            IGetByIdOrderUseCase getByIdOrderUseCase,
+            IUpdateOrderStatusUseCase updateOrderStatusUseCase)
         {
             _createOrderUseCase = createOrderUseCase;
             _getOrderUseCase = getOrderUseCase;
@@ -26,7 +31,7 @@ namespace we_food.contexts.order.Controllers
             try
             {
                 var result = await _createOrderUseCase.Run(dto);
-                return Ok(result);
+                return Ok(OrderResponseDTO.From(result));
             }
             catch (Exception ex)
             {
@@ -40,7 +45,7 @@ namespace we_food.contexts.order.Controllers
             try
             {
                 var result = await _getOrderUseCase.Run();
-                return Ok(result);
+                return Ok(result.Select(OrderResponseDTO.From));
             }
             catch (Exception ex)
             {
@@ -49,12 +54,12 @@ namespace we_food.contexts.order.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(Guid id)
+        public async Task<IActionResult> GetById(Guid id)
         {
             try
             {
                 var result = await _getByIdOrderUseCase.Run(id);
-                return Ok(result);
+                return Ok(OrderResponseDTO.From(result));
             }
             catch (Exception ex)
             {
@@ -68,13 +73,12 @@ namespace we_food.contexts.order.Controllers
             try
             {
                 var result = await _updateOrderStatusUseCase.Run(id, dto);
-                return Ok(result);
+                return Ok(OrderResponseDTO.From(result));
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-
     }
 }

@@ -1,17 +1,16 @@
 ﻿namespace we_food.contexts.restaurant.ValueObjects
 {
-    public class Adress
+    public class Address
     {
-        public string Street { get; private set; }
-        public string City { get; private set; }
-        public string State { get; private set; }
-        public string ZipCode { get; private set; }
-        public Adress(string street, string city, string state, string zipCode)
+        public string Value { get; }
+
+        public Address(string value)
         {
-            Street = street;
-            City = city;
-            State = state;
-            ZipCode = zipCode;
+            if (string.IsNullOrWhiteSpace(value))
+                throw new Exception("Endereço inválido");
+            if (value.Length < 5)
+                throw new Exception("Endereço deve conter pelo menos 5 caracteres");
+            this.Value = value.Trim();
         }
     }
 }

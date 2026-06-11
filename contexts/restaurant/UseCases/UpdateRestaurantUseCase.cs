@@ -24,7 +24,8 @@ namespace we_food.contexts.restaurant.UseCases
             restaurant.Update(
                 new Name(dto.Name),
                 new Description(dto.Description),
-                new Phone(dto.Phone)
+                new Phone(dto.Phone),
+                new Address(dto.Address)
             );
 
             await _restaurantRepository.Update(restaurant);

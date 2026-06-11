@@ -4,7 +4,6 @@ namespace we_food.contexts.order.DTOS
 {
     public class UpdateOrderStatusDTO
     {
-        public int Status { get; set; }
-
+        public OrderStatus Status { get; set; }
     }
 }

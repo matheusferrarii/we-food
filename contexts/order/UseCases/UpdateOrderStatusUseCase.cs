@@ -1,6 +1,5 @@
 using we_food.contexts.order.DTOS;
 using we_food.contexts.order.Entities;
-using we_food.contexts.order.Enums;
 using we_food.contexts.order.Interfaces;
 
 namespace we_food.contexts.order.UseCases
@@ -21,10 +20,7 @@ namespace we_food.contexts.order.UseCases
             if (order == null)
                 throw new Exception("Pedido não encontrado");
 
-            if (!Enum.IsDefined(typeof(OrderStatus), dto.Status))
-                throw new Exception("Status inválido");
-
-            order.ChangeStatus((OrderStatus)dto.Status);
+            order.ChangeStatus(dto.Status);
 
             await _orderRepository.Update(order);
 

@@ -12,35 +12,40 @@ namespace we_food.contexts.restaurant.Entities
 
         public Phone Phone { get; private set; }
 
+        public Address Address { get; private set; }
+
         public bool IsOpen { get; private set; }
 
         public DateTime CreatedAt { get; private set; }
 
-        public Restaurant(Name name, Description description, Phone phone)
+        public Restaurant(Name name, Description description, Phone phone, Address address)
         {
             Id = Guid.NewGuid();
             Name = name;
             Description = description;
             Phone = phone;
+            Address = address;
             IsOpen = false;
             CreatedAt = DateTime.UtcNow;
         }
 
-        public Restaurant(Guid id, Name name, Description description, Phone phone, bool isOpen, DateTime createdAt)
+        public Restaurant(Guid id, Name name, Description description, Phone phone, Address address, bool isOpen, DateTime createdAt)
         {
             Id = id;
             Name = name;
             Description = description;
             Phone = phone;
+            Address = address;
             IsOpen = isOpen;
             CreatedAt = createdAt;
         }
 
-        public void Update(Name name, Description description, Phone phone)
+        public void Update(Name name, Description description, Phone phone, Address address)
         {
             Name = name;
             Description = description;
             Phone = phone;
+            Address = address;
         }
 
         public void Open()

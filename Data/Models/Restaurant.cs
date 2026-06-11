@@ -1,6 +1,4 @@
-﻿using we_food.contexts.restaurant.ValueObjects;
-
-namespace we_food.Data.Model
+﻿namespace we_food.Data.Model
 {
     public class Restaurant
     {

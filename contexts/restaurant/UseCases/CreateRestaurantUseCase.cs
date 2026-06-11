@@ -19,7 +19,8 @@ namespace we_food.contexts.restaurant.UseCases
             var restaurant = new Restaurant(
                 new Name(dto.Name),
                 new Description(dto.Description),
-                new Phone(dto.Phone)
+                new Phone(dto.Phone),
+                new Address(dto.Address)
             );
 
             await _restaurantRepository.Save(restaurant);

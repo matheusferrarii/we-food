@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using we_food.contexts.restaurant.DTOS;
 using we_food.contexts.restaurant.Interfaces;
+
 namespace we_food.contexts.restaurant.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class RestaurantController : Controller
+    public class RestaurantController : ControllerBase
     {
         private readonly ICreateRestaurantUseCase _createRestauranteUseCase;
         private readonly IGetRestaurantUseCase _getRestauranteUseCase;
@@ -13,14 +14,14 @@ namespace we_food.contexts.restaurant.Controllers
         private readonly IUpdateRestaurantUseCase _updateRestauranteUseCase;
         private readonly IUpdateRestaurantStatusUseCase _updateRestauranteStatusUseCase;
         private readonly IGetByIdRestaurantMenuUseCase _getRestauranteMenuByIdUseCase;
+
         public RestaurantController(
-            ICreateRestaurantUseCase createRestauranteUseCase, 
-            IGetRestaurantUseCase getRestauranteUseCase, 
+            ICreateRestaurantUseCase createRestauranteUseCase,
+            IGetRestaurantUseCase getRestauranteUseCase,
             IGetByIdRestaurantUseCase getRestauranteByIdUseCase,
             IUpdateRestaurantUseCase updateRestauranteUseCase,
             IUpdateRestaurantStatusUseCase updateRestauranteStatusUseCase,
-            IGetByIdRestaurantMenuUseCase getRestauranteMenuByIdUseCase
-            )
+            IGetByIdRestaurantMenuUseCase getRestauranteMenuByIdUseCase)
         {
             _createRestauranteUseCase = createRestauranteUseCase;
             _getRestauranteUseCase = getRestauranteUseCase;
@@ -36,7 +37,7 @@ namespace we_food.contexts.restaurant.Controllers
             try
             {
                 var result = await _createRestauranteUseCase.Run(dto);
-                return Ok(result);
+                return Ok(RestaurantResponseDTO.From(result));
             }
             catch (Exception ex)
             {
@@ -50,7 +51,7 @@ namespace we_food.contexts.restaurant.Controllers
             try
             {
                 var result = await _getRestauranteUseCase.Run();
-                return Ok(result);
+                return Ok(result.Select(RestaurantResponseDTO.From));
             }
             catch (Exception ex)
             {
@@ -64,7 +65,7 @@ namespace we_food.contexts.restaurant.Controllers
             try
             {
                 var result = await _getRestauranteByIdUseCase.Run(id);
-                return Ok(result);
+                return Ok(RestaurantResponseDTO.From(result));
             }
             catch (Exception ex)
             {
@@ -78,7 +79,7 @@ namespace we_food.contexts.restaurant.Controllers
             try
             {
                 var result = await _getRestauranteMenuByIdUseCase.Run(id);
-                return Ok(result);
+                return Ok(result.Select(MenuItemResponseDTO.From));
             }
             catch (Exception ex)
             {
@@ -86,14 +87,13 @@ namespace we_food.contexts.restaurant.Controllers
             }
         }
 
-
         [HttpPatch("{id}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] RestaurantUpdateDTO dto)
         {
             try
             {
                 var result = await _updateRestauranteUseCase.Run(id, dto);
-                return Ok(result);
+                return Ok(RestaurantResponseDTO.From(result));
             }
             catch (Exception ex)
             {
@@ -107,13 +107,12 @@ namespace we_food.contexts.restaurant.Controllers
             try
             {
                 var result = await _updateRestauranteStatusUseCase.Run(id, dto);
-                return Ok(result);
+                return Ok(RestaurantResponseDTO.From(result));
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-
     }
 }

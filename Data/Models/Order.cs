@@ -1,7 +1,4 @@
-﻿using we_food.contexts.order.Enums;
-using we_food.contexts.order.ValueObjects;
-
-namespace we_food.Data.Model
+﻿namespace we_food.Data.Model
 {
     public class Order
     {

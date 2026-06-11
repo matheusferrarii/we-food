@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using we_food.contexts.restaurant.DTOS;
 using we_food.contexts.restaurant.Interfaces;
-using we_food.contexts.restaurant.UseCases;
 
 namespace we_food.contexts.restaurant.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class MenuItemController : Controller
+    public class MenuItemController : ControllerBase
     {
         private readonly ICreateMenuItemUseCase _createMenuItemUseCase;
         private readonly IGetMenuItemUseCase _getMenuItemUseCase;
@@ -32,7 +31,7 @@ namespace we_food.contexts.restaurant.Controllers
             try
             {
                 var result = await _createMenuItemUseCase.Run(dto);
-                return Ok(result);
+                return Ok(MenuItemResponseDTO.From(result));
             }
             catch (Exception ex)
             {
@@ -46,7 +45,7 @@ namespace we_food.contexts.restaurant.Controllers
             try
             {
                 var result = await _getMenuItemUseCase.Run();
-                return Ok(result);
+                return Ok(result.Select(MenuItemResponseDTO.From));
             }
             catch (Exception ex)
             {
@@ -60,7 +59,7 @@ namespace we_food.contexts.restaurant.Controllers
             try
             {
                 var result = await _getMenuItemByIdUseCase.Run(id);
-                return Ok(result);
+                return Ok(MenuItemResponseDTO.From(result));
             }
             catch (Exception ex)
             {
@@ -74,7 +73,7 @@ namespace we_food.contexts.restaurant.Controllers
             try
             {
                 var result = await _updateMenuItemUseCase.Run(id, dto);
-                return Ok(result);
+                return Ok(MenuItemResponseDTO.From(result));
             }
             catch (Exception ex)
             {
@@ -82,4 +81,4 @@ namespace we_food.contexts.restaurant.Controllers
             }
         }
     }
-    }
+}
